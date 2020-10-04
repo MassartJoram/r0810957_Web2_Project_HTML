@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="r0810957_Web2_Project_HTML:war">
+    <output-path>$PROJECT_DIR$/out/artifacts/r0810957_Web2_Project_HTML_war</output-path>
+    <root id="archive" name="r0810957_Web2_Project_HTML_war.war">
+      <element id="artifact" artifact-name="r0810957_Web2_Project_HTML:war exploded" />
+    </root>
+  </artifact>
+</component>

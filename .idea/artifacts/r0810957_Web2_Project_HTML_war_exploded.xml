@@ -1,0 +1,13 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="r0810957_Web2_Project_HTML:war exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/r0810957_Web2_Project_HTML_war_exploded</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="r0810957_Web2_Project_HTML/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="r0810957_Web2_Project_HTML" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>
