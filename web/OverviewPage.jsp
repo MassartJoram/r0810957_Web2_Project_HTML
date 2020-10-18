@@ -1,68 +1,65 @@
+<%@ page import="Domain.db.ItemsDB" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="Domain.Model.Items" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+<% ItemsDB itemsDB = new ItemsDB();
+    ArrayList<Items> itemList;
+    itemList = itemsDB.getItemList();%>
+
 <html>
 <head>
     <title>Overview</title>
     <link rel="stylesheet" type="text/css" href="Style.css">
 </head>
-<body class="pictureStore">
-    <div class="topnav">
-        <a class="active" href="index.jsp">Home</a>
-        <a href="AddPage.jsp">Add items</a>
-        <a href="OverviewPage.jsp">Overview</a>
-    </div>
+<body>
 
-    <h2>Overview of items in the store</h2>
+<header>
+<nav>
+    <ul>
+        <li><a class="active" href="index.jsp">Home</a></li>
+        <li><a href="AddPage.jsp">Add item</a></li>
+        <li><a href="OverviewPage.jsp">Overview</a></li>
+    </ul>
+</nav>
+</header>
 
-    <table style="width:100%">
-        <tr>
-            <th>Name</th>
-            <th>Type</th>
-            <th>Amount</th>
-            <th>Discription</th>
-        </tr>
-        <tr>
-            <td>Abracadabrus</td>
-            <td>Wonderous Item</td>
-            <td>1</td>
-            <td>Utility</td>
-        </tr>
-        <tr>
-            <td>Adamantine Armor</td>
-            <td>Armor</td>
-            <td>5</td>
-            <td>heavy defence</td>
-        </tr>
-        <tr>
-            <td>Runic Armor</td>
-            <td>Armor</td>
-            <td>5</td>
-            <td>heavy defence</td>
-        </tr>
-        <tr>
-            <td>Health potion</td>
-            <td>potions</td>
-            <td>50</td>
-            <td>Restores health</td>
-        </tr>
-        <tr>
-            <td>defence potion</td>
-            <td>Potions</td>
-            <td>20</td>
-            <td>Increases Defence</td>
-        </tr>
-        <tr>
-            <td>Rusty blade</td>
-            <td>Weapon</td>
-            <td>3</td>
-            <td>Old rusted blade</td>
-        </tr>
-    </table>
+<main>
+    <article>
+        <h2>Overview of items in the store</h2>
 
-    <p class="paragraafC">The total amount of potions is 70</p>
+        <table style="width:100%">
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Amount</th>
+                <th>Discription</th>
+            </tr>
 
-    <div class="footer">
+            <%
+                for (Items items: itemList) {
+            %>
+            <tr>
+                <td><%=items.getName()%></td>
+                <td><%=items.getType()%></td>
+                <td><%=items.getAmount()%></td>
+                <td><%=items.getDiscription()%></td>
+            </tr>
+
+            <%
+                }
+            %>
+        </table>
+
+        <p class="paragraafC">The total amount of items is <%=itemsDB.calculateTotal()%></p>
+
+    </article>
+</main>
+
+
+    <footer class="footer">
         <p>Massart Joram: Project Web2</p>
-    </div>
+    </footer>
 
 </body>
 </html>
