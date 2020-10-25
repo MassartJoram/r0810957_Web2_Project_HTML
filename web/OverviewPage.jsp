@@ -3,9 +3,10 @@
 <%@ page import="Domain.Model.Items" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<% ItemsDB itemsDB = new ItemsDB();
-    ArrayList<Items> itemList;
-    itemList = itemsDB.getItemList();%>
+<%
+    Integer total = (Integer) request.getAttribute("total");
+    ArrayList<Items> itemList = (ArrayList<Items>) request.getAttribute("items");
+%>
 
 <html>
 <head>
@@ -17,9 +18,10 @@
 <header>
 <nav>
     <ul>
-        <li><a class="active" href="index.jsp">Home</a></li>
+        <li><a class="active" href="Servlet">Home</a></li>
+        <li><a href="SearchItem.jsp">Search item</a></li>
         <li><a href="AddPage.jsp">Add item</a></li>
-        <li><a href="OverviewPage.jsp">Overview</a></li>
+        <li><a href="Servlet?command=overview">Overview</a></li>
     </ul>
 </nav>
 </header>
@@ -34,6 +36,7 @@
                 <th>Type</th>
                 <th>Amount</th>
                 <th>Discription</th>
+                <th>Delete</th>
             </tr>
 
             <%
@@ -44,6 +47,7 @@
                 <td><%=items.getType()%></td>
                 <td><%=items.getAmount()%></td>
                 <td><%=items.getDiscription()%></td>
+                <td><a href="Servlet?command=delete&name=<%=items.getName()%>&type=<%=items.getType()%>">Delete</a></td>
             </tr>
 
             <%
@@ -51,7 +55,12 @@
             %>
         </table>
 
-        <p class="paragraafC">The total amount of items is <%=itemsDB.calculateTotal()%></p>
+
+        <% if (total != null) { %>
+        <p class="paragraafC">The total amount of items is <%=total%></p>
+        <% } else {%>
+        <p class="paragraafC">0</p>
+        <% } %>
 
     </article>
 </main>

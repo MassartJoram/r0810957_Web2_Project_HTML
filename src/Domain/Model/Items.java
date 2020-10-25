@@ -24,6 +24,10 @@ public class Items {
     public String getDiscription(){return discription;}
     public void setDiscription(String discription){this.discription =discription;}
 
+    public Boolean hasName(String name, String type){
+        return name.equals(this.getName())&& type.equals(this.getType());
+    }
+
 
 
 }

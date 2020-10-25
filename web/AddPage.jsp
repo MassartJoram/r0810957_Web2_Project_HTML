@@ -10,9 +10,10 @@
 
 <nav>
     <ul>
-        <li><a class="active" href="index.jsp">Home</a></li>
+        <li><a class="active" href="Servlet">Home</a></li>
+        <li><a href="SearchItem.jsp">Search item</a></li>
         <li><a href="AddPage.jsp">Add item</a></li>
-        <li><a href="OverviewPage.jsp">Overview</a></li>
+        <li><a href="Servlet?command=overview">Overview</a></li>
     </ul>
 </nav>
 
@@ -27,15 +28,19 @@
 
 
 <fieldset>
-        <label for="nameItem"> Name:</label>
-        <input type="text" id="nameItem" name="nameItem"><br><br>
-        <label for="typeItem">Type:</label>
-        <input type="text" id="typeItem" name="typeItem"><br><br>
+    <form action="Servlet?command=addItem" method="post" novalidate>
+
+        <label for="name"> Name:</label>
+        <input type="text" id="name" name="name"><br><br>
+        <label for="type">Type:</label>
+        <input type="text" id="type" name="type"><br><br>
         <label for="amount"> Amount:</label>
         <input type="number" id="amount" name="amount"><br><br>
         <label for="discription">Disciption:</label>
         <textarea id="discription" name="discription" rows="4" cols="50"></textarea><br><br>
         <input class="ButtonItem" type="submit" value="Add item">
+
+    </form>
 </fieldset>
 
 

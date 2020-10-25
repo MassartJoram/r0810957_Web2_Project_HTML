@@ -1,4 +1,8 @@
+<%@ page import="Domain.db.ItemsDB" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+<% Integer total = (Integer) request.getAttribute("total"); %>
+
 <html>
   <head>
     <title>Home</title>
@@ -11,9 +15,10 @@
 
     <nav>
       <ul>
-        <li><a class="active" href="index.jsp">Home</a></li>
+        <li><a class="active" href="Servlet">Home</a></li>
+        <li><a href="SearchItem.jsp">Search item</a></li>
         <li><a href="AddPage.jsp">Add item</a></li>
-        <li><a href="OverviewPage.jsp">Overview</a></li>
+        <li><a href="Servlet?command=overview">Overview</a></li>
       </ul>
     </nav>
 
@@ -31,6 +36,13 @@
         Cras ut lacinia tellus.
       </p>
       <img src="Images/Store.jpg" class="center">
+
+      <% if (total != null) { %>
+      <p class="paragraafC">The total amount of items is <%=total%></p>
+      <% } else {%>
+      <p class="paragraafC">0</p>
+      <% } %>
+
     </article>
   </main>
 
