@@ -18,6 +18,8 @@ public class Items {
         setDiscription(discription);
     }
 
+
+    //setters and getters
     public String getName(){return name;}
 
     public void setName(String name){
