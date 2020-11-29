@@ -1,4 +1,7 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+
 <html>
 <head>
     <title>Add Items</title>
@@ -8,14 +11,9 @@
 
 <header>
 
-<nav>
-    <ul>
-        <li><a class="active" href="Servlet">Home</a></li>
-        <li><a href="SearchItem.jsp">Search item</a></li>
-        <li><a href="AddPage.jsp">Add item</a></li>
-        <li><a href="Servlet?command=overview">Overview</a></li>
-    </ul>
-</nav>
+    <jsp:include page="navigatie.jsp">
+        <jsp:param name="actual" value="Add item"/>
+    </jsp:include>
 
 </header>
 
@@ -28,25 +26,46 @@
 
 
 <fieldset>
-    <form action="Servlet?command=addItem" method="post" novalidate>
 
+    <c:if test="${not empty errors}">
+        <ul>
+            <c:forEach items="${errors}" var="error">
+                <li>
+                    ${error}
+                </li>
+            </c:forEach>
+        </ul>
+    </c:if>
+    <form action="Servlet?command=addItem" method="post" novalidate>
+        <p ${name}>
         <label for="name"> Name:</label>
-        <input type="text" id="name" name="name"><br><br>
+        <input type="text" id="name" name="name" value="${namePreviousValue}">
+        </p>
+
+        <p ${type}">
         <label for="type">Type:</label>
-        <input type="text" id="type" name="type"><br><br>
+        <input type="text" id="type" name="type" value="${typePreviousValue}">
+        </p>
+
+        <p ${amount}>
         <label for="amount"> Amount:</label>
-        <input type="number" id="amount" name="amount"><br><br>
+        <input type="number" id="amount" name="amount" value="${amountPreviousValue}">
+        </p>
+
+        <p ${discription}>
         <label for="discription">Disciption:</label>
-        <textarea id="discription" name="discription" rows="4" cols="50"></textarea><br><br>
+        <textarea id="discription" name="discription" rows="4" cols="50"></textarea>
+        </p>
+
+        <p>
         <input class="ButtonItem" type="submit" value="Add item">
+        </p>
 
     </form>
 </fieldset>
 
 
-    <footer class="footer">
-        <p>Massart Joram: Project Web2</p>
-    </footer>
+<jsp:include page="footer.jsp"/>
 
 </body>
 </html>

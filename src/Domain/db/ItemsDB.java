@@ -18,13 +18,23 @@ public class ItemsDB {
         itemList.add(items);
     }
 
+
     public ArrayList<Items> getItemList() {
         return this.itemList;
     }
 
     public Items Find(String name, String type) {
         for (Items items : itemList) {
-            if (items.hasName(name, type)) {
+            if (items.hasName(name, type )) {
+                return items;
+            }
+        }
+        return null;
+    }
+
+    public Items FindName(String name){
+        for(Items items : itemList){
+            if(items.hasAllValues(name)){
                 return items;
             }
         }
@@ -42,7 +52,6 @@ public class ItemsDB {
     public void delete(Items items){
         itemList.remove(items);
     }
-
 
 }
 

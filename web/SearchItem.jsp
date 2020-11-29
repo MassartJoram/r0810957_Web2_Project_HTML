@@ -1,4 +1,7 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+
 <html>
 <head>
     <title>Search Items</title>
@@ -8,14 +11,9 @@
 
 <header>
 
-    <nav>
-        <ul>
-            <li><a class="active" href="Servlet">Home</a></li>
-            <li><a href="SearchItem.jsp">Search item</a></li>
-            <li><a href="AddPage.jsp">Add item</a></li>
-            <li><a href="Servlet?command=overview">Overview</a></li>
-        </ul>
-    </nav>
+<jsp:include page="navigatie.jsp">
+    <jsp:param name="actual" value="Search item"/>
+</jsp:include>
 
     <h2>Search for an item</h2>
 
@@ -23,16 +21,27 @@
 
 <main>
     <article>
+
+        <c:if test="${not empty errors}">
+            <ul>
+                <c:forEach items="${errors}" var="error">
+                    <li>
+                            ${error}
+                    </li>
+                </c:forEach>
+            </ul>
+        </c:if>
+
         <form method="Get" action="Servlet" novalidate>
             <fieldset>
-                <p>
+                <p${name}>
                     <label for="name"> Name: </label>
-                    <input id="name" name="name" type="text" value="" required>
+                    <input id="name" name="name" type="text" value="${namePreviousValue}">
                 </p>
 
-                <p>
+                <p${type}>
                     <label for="type"> Type:</label>
-                    <input id="type" name="type" , type="text" value="" required>
+                    <input id="type" name="type" type="text" value="${typePreviousValue}">
                 </p>
 
                 <input type="hidden" name="command" value="findItem">
@@ -48,10 +57,7 @@
     </article>
 </main>
 
-
-    <footer class="footer">
-        <p>Massart Joram: Project Web2</p>
-    </footer>
+<jsp:include page="footer.jsp"/>
 
 </body>
 </html>
