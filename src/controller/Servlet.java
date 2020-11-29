@@ -234,6 +234,8 @@ public class Servlet extends HttpServlet {
         return "editConfirm.jsp";
     }
 
+
+    //Cookies not niet af
 /*    private String fillInName(HttpServletRequest request , HttpServletResponse response){
         ArrayList<String> errors= new ArrayList<>();
         try{
