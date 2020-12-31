@@ -17,15 +17,6 @@
 
     <h1 class="h2Home">Welcome to the DnD store</h1>
 
-
-<%--    <p${name}>
-      <label  for="name"> fill in your Name:</label>
-      <input  type="text" id="name" name="name" value="${items.name}">
-      <input type="submit" value="yes!" name="submit">
-    </p>
-    <p>Welcome back ${cookie.name.value}</p>--%>
-
-
   </header>
 
   <main>

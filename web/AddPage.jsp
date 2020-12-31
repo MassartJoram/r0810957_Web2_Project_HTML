@@ -12,7 +12,7 @@
 <header>
 
     <jsp:include page="navigatie.jsp">
-        <jsp:param name="actual" value="Add item"/>
+        <jsp:param  name="actual" value="AddPage"/>
     </jsp:include>
 
 </header>
@@ -36,29 +36,29 @@
             </c:forEach>
         </ul>
     </c:if>
-    <form action="Servlet?command=addItem" method="post" novalidate>
-        <p ${name}>
+    <form action="Servlet?command=addItem&Servlet?command=logBook" method="post" novalidate>
+        <p>
         <label for="name"> Name:</label>
         <input type="text" id="name" name="name" value="${namePreviousValue}">
         </p>
 
-        <p ${type}">
+        <p>
         <label for="type">Type:</label>
         <input type="text" id="type" name="type" value="${typePreviousValue}">
         </p>
 
-        <p ${amount}>
+        <p>
         <label for="amount"> Amount:</label>
         <input type="number" id="amount" name="amount" value="${amountPreviousValue}">
         </p>
 
-        <p ${discription}>
+        <p>
         <label for="discription">Disciption:</label>
         <textarea id="discription" name="discription" rows="4" cols="50"></textarea>
         </p>
 
         <p>
-        <input class="ButtonItem" type="submit" value="Add item">
+        <input id="ButtonAdd" class="ButtonItem" type="submit" value="Add item">
         </p>
 
     </form>

@@ -42,28 +42,27 @@
     <form action="Servlet?command=editConfirm" method="post" novalidate>
 
 
-        <p${name}>
-            <label  for="name"> Name:</label>
-            <input  type="text" id="name" name="name" value="${items.name}">
+        <p>
+            <input  type="hidden" id="name" name="name" value="${items.name}">
         </p>
 
-        <p${type}">
+        <p>
             <label for="type">Type:</label>
             <input type="text" id="type" name="type" value="${items.type}">
         </p>
 
-        <p ${amount}>
+        <p>
             <label for="amount"> Amount:</label>
             <input type="number" id="amount" name="amount" value="${items.amount}">
         </p>
 
-        <p ${discription}>
+        <p>
             <label for="discription">Disciption:</label>
             <textarea id="discription" name="discription" rows="4" cols="50"></textarea>
 
 
          <p>
-        <input class="ButtonItem" type="submit" value="Edit">
+        <input id="buttonEdit" class="ButtonItem" type="submit" value="Edit">
         </p>
 
 

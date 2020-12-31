@@ -12,7 +12,7 @@
 <header>
 
 <jsp:include page="navigatie.jsp">
-    <jsp:param name="actual" value="Search item"/>
+    <jsp:param name="actual" value="SearchItem"/>
 </jsp:include>
 
     <h2>Search for an item</h2>
@@ -32,7 +32,7 @@
             </ul>
         </c:if>
 
-        <form method="Get" action="Servlet" novalidate>
+        <form action="Servlet?command=findItem" method="post" novalidate>
             <fieldset>
                 <p${name}>
                     <label for="name"> Name: </label>

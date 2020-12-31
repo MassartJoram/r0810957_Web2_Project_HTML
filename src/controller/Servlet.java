@@ -1,17 +1,14 @@
 package controller;
 
+import Domain.Model.Event;
 import Domain.Model.Items;
 import Domain.db.ItemsDB;
-
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.*;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 
 @WebServlet("/Servlet")
 public class Servlet extends HttpServlet {
@@ -27,44 +24,44 @@ public class Servlet extends HttpServlet {
         processRequest(request, response);
     }
 
-    public void setName(Items items, HttpServletRequest request , ArrayList<String> errors){
+    public void setName(Items items, HttpServletRequest request, ArrayList<String> errors) {
         String name = request.getParameter("name");
-        try{
+        try {
             items.setName(name);
-            request.setAttribute("namePreviousValue" , name);
-        }catch(IllegalArgumentException exc){
+            request.setAttribute("namePreviousValue", name);
+        } catch (IllegalArgumentException exc) {
             errors.add(exc.getMessage());
         }
     }
 
-    public void setType(Items items, HttpServletRequest request , ArrayList<String> errors){
+    public void setType(Items items, HttpServletRequest request, ArrayList<String> errors) {
         String type = request.getParameter("type");
-        try{
+        try {
             items.setType(type);
-            request.setAttribute("typePreviousValue" , type);
-        }catch(IllegalArgumentException exc){
+            request.setAttribute("typePreviousValue", type);
+        } catch (IllegalArgumentException exc) {
             errors.add(exc.getMessage());
         }
     }
 
-    public void setAmount(Items items, HttpServletRequest request , ArrayList<String> errors){
+    public void setAmount(Items items, HttpServletRequest request, ArrayList<String> errors) {
         String amount = request.getParameter("amount");
-        try{
+        try {
             items.setAmount(Integer.parseInt(amount));
-            request.setAttribute("amountPreviousValue" , amount);
-        }catch(NumberFormatException exc){
+            request.setAttribute("amountPreviousValue", amount);
+        } catch (NumberFormatException exc) {
             errors.add("Fill an amount in!");
-        }catch(IllegalArgumentException exc){
+        } catch (IllegalArgumentException exc) {
             errors.add(exc.getMessage());
         }
     }
 
-    public void setDiscription(Items items, HttpServletRequest request , ArrayList<String> errors){
+    public void setDiscription(Items items, HttpServletRequest request, ArrayList<String> errors) {
         String discription = request.getParameter("discription");
-        try{
+        try {
             items.setDiscription(discription);
-            request.setAttribute("discriptionPreviousValue" , discription);
-        }catch(IllegalArgumentException exc){
+            request.setAttribute("discriptionPreviousValue", discription);
+        } catch (IllegalArgumentException exc) {
             errors.add(exc.getMessage());
         }
     }
@@ -77,7 +74,7 @@ public class Servlet extends HttpServlet {
 
         switch (command) {
             case "addItem":
-                destination = addItem(request , response);
+                destination = addItem(request, response);
                 break;
 
             case "findItem":
@@ -85,7 +82,7 @@ public class Servlet extends HttpServlet {
                 break;
 
             case "overview":
-                destination = overview(request , response);
+                destination = overview(request, response);
                 break;
 
             case "delete":
@@ -101,18 +98,13 @@ public class Servlet extends HttpServlet {
                 destination = editConfirm(request, response);
                 break;
 
-
             case "edit":
                 destination = edit(request, response);
                 break;
 
-/*            case "rememberMe":
-                destination = rememberMe(request, response);
+            case "logBook":
+                destination = logBook(request, response);
                 break;
-
-            case "fillInName":
-                destination = fillInName(request, response);
-                break;*/
 
             default:
                 request.setAttribute("total", store.calculateTotal());
@@ -120,15 +112,29 @@ public class Servlet extends HttpServlet {
                 break;
         }
         request.getRequestDispatcher(destination).forward(request, response);
-    }
+        }
 
-    private String overview(HttpServletRequest request , HttpServletResponse response) {
+    private String overview(HttpServletRequest request, HttpServletResponse response) {
+        logBookSessions(request , "Checked the overview");
         request.setAttribute("items", store.getItemList());
         request.setAttribute("total", store.calculateTotal());
+        Cookie cookieCount = getCookieWithKey(request , "cookieCount");
+
+            if(cookieCount == null){
+                cookieCount = new Cookie("cookieCount" , "1");
+            }else {
+                int value = Integer.parseInt(cookieCount.getValue()) +1 ;
+                cookieCount.setValue(Integer.toString(value));
+            }
+            response.addCookie(cookieCount);
+            request.setAttribute("cookieCount" , cookieCount.getValue());
+
         return "OverviewPage.jsp";
     }
 
+
     private String findItem(HttpServletRequest request, HttpServletResponse response) {
+        logBookSessions(request , "Looked for an item");
         ArrayList<String> errors = new ArrayList<>();
         Items items = new Items();
         setName(items , request , errors);
@@ -166,6 +172,7 @@ public class Servlet extends HttpServlet {
         if(errors.size() == 0){
             try{
                 store.addItem(items);
+                logBookSessions(request , "Added an item");
                 return overview(request , response);
             }catch (IllegalArgumentException exc){
                 errors.add(exc.getMessage());
@@ -183,6 +190,7 @@ public class Servlet extends HttpServlet {
             String name = request.getParameter("name");
             String type = request.getParameter("type");
             store.delete(store.Find(name, type));
+            logBookSessions(request , "Deleted an item");
             return overview(request, response);
         } else
             return "index.jsp";
@@ -199,14 +207,16 @@ public class Servlet extends HttpServlet {
 
 
     private String editConfirm(HttpServletRequest request , HttpServletResponse response) {
-
+            logBookSessions(request , "Edited an item");
             ArrayList<String> errors = new ArrayList<>();
 
             String name = request.getParameter("name"); // Naam kan niet veranderd worden.
             Items items = store.FindName(name);
             request.setAttribute("items" , items);
-
-
+            setName(items , request , errors);
+            setType(items , request , errors);
+            setAmount(items , request , errors);
+            setDiscription(items , request , errors);
 
 
             if (errors.size() == 0) {
@@ -215,16 +225,16 @@ public class Servlet extends HttpServlet {
                         items.setType(request.getParameter("type"));
                         items.setAmount(Integer.parseInt(request.getParameter("amount")));
                         items.setDiscription(request.getParameter("discription"));
+                        request.setAttribute("items" , store.getItemList());
+                        return overview(request , response);
 
                 } catch (IllegalArgumentException exc) {
                     errors.add(exc.getMessage());
-                    request.setAttribute("errors" , errors);
-                    return "editConfirm.jsp";
                 }
             }
+        request.setAttribute("errors" , errors);
+        return "editConfirm.jsp";
 
-         request.setAttribute("items" , store.getItemList());
-        return overview(request , response);
     }
 
         private String edit(HttpServletRequest request , HttpServletResponse response) {
@@ -235,58 +245,40 @@ public class Servlet extends HttpServlet {
     }
 
 
-    //Cookies not niet af
-/*    private String fillInName(HttpServletRequest request , HttpServletResponse response){
-        ArrayList<String> errors= new ArrayList<>();
-        try{
-            Cookie[] cookies = request.getCookies();
-
-            if(cookies.length == 0){
-                Items items = store.FindName(request.getParameter("name"));
-                request.setAttribute("items" , items);
-                Cookie nameCookie = new Cookie("nameCookie", items.getName());
-                response.addCookie(nameCookie);
-
-            }else{
-                for(Cookie c : cookies){
-                    if(!c.getName().equals("nameCookie")){
-                        Items items = store.FindName(request.getParameter("name"));
-                        request.setAttribute("items" , items);
-                        Cookie nameCookie = new Cookie("nameCookie" , items.getName());
-                        response.addCookie(nameCookie);
-                    }
-                }
-            }
-        }catch(IllegalArgumentException exc){
-            errors.add(exc.getMessage());
-            request.setAttribute("errors" , errors);
-            return "index.jsp";
-        }
-        return "index.jsp";
+    private String logBook(HttpServletRequest request , HttpServletResponse response){
+        logBookSessions(request , "Checked the logbook");
+        return "LogBook.jsp";
     }
 
+    private void logBookSessions(HttpServletRequest request , String pages){
+        HttpSession session = request.getSession();
+        ArrayList<Event> events = (ArrayList<Event>) session.getAttribute("events");
 
+        if(events == null){
+            events = new ArrayList<>();
+            session.setAttribute("events" , events);
+        }
 
-    private String rememberMe(HttpServletRequest request , HttpServletResponse response){
+        Date localTime = new Date();
+        Event event = new Event(localTime , pages);
+        events.add(event);
+
+    }
+
+    public Cookie getCookieWithKey(HttpServletRequest request, String key)
+    {
         Cookie[] cookies = request.getCookies();
 
-        try{
-            if(cookies.length == 0){
-                return "index.jsp";
-            }else{
-                for(Cookie c : cookies){
-                    if(c.getName().equals("nameCookie")){
-                        Items items = store.FindName(c.getValue());
-                        request.setAttribute("items" , items);
-                        return "found.jsp";
-                    }
-                }
+        if (cookies == null) return null;
+
+        for (Cookie c: cookies) {
+            if (c.getName().equals(key)) {
+                return c;
             }
-        }catch(IllegalArgumentException exc){
-            return "index.jsp";
         }
-        return "index.jsp";
-    }*/
+
+        return null;
+    }
 }
 
 

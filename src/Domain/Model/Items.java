@@ -19,6 +19,7 @@ public class Items {
     }
 
 
+
     //setters and getters
     public String getName(){return name;}
 
@@ -38,6 +39,7 @@ public class Items {
     }
         this.type =type;
 }
+
     public int getAmount(){return amount;}
 
     public void setAmount(int amount){
@@ -60,6 +62,7 @@ public class Items {
     public Boolean hasName(String name, String type){
         return name.equals(this.getName())&& type.equals(this.getType());
     }
+
 
     public Boolean hasAllValues(String name){
         return name.equals(this.getName());

@@ -10,7 +10,7 @@
 <body>
 
 <jsp:include page="navigatie.jsp">
-    <jsp:param name="actual" value="Overview"/>
+    <jsp:param name="actual" value="OverviewPage"/>
 </jsp:include>
 
 <main>
@@ -26,7 +26,8 @@
                     <th>Type</th>
                     <th>Amount</th>
                     <th>Discription</th>
-                    <th>Delete/Edit</th>
+                    <th>Delete</th>
+                    <th>Edit</th>
                 </tr>
 
                 <c:forEach var="items" items="${items}">
@@ -35,8 +36,9 @@
                         <td>${items.type}</td>
                         <td>${items.amount}</td>
                         <td>${items.discription}</td>
-                        <td><a href="Servlet?command=delete&name=${items.name}&type=${items.type}">Delete</a> //
-                            <a href="Servlet?command=edit&name=${items.name}&type=${items.type}&amount=${items.amount}&discription=${items.discription}">Edit</a></td>
+                        <td><a style="color: white" href="Servlet?command=delete&name=${items.name}&type=${items.type}">Delete</a> </td>
+                        <td><a style="color: white" href="Servlet?command=edit&name=${items.name}&type=${items.type}&amount=${items.amount}&discription=${items.discription}">Edit</a> </td>
+
                     </tr>
                 </c:forEach>
             </table>
@@ -48,6 +50,7 @@
 
 
         <p class="paragraafC">The total amount of items is ${total}</p>
+        <p class="paragraafC">You have visited this page ${cookieCount} times</p>
 
 
     </article>

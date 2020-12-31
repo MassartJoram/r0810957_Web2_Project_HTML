@@ -1,13 +1,13 @@
 package Domain.db;
 
 import Domain.Model.Items;
-
 import java.util.ArrayList;
 
 public class ItemsDB {
     ArrayList<Items> itemList;
 
     public ItemsDB() {
+
         itemList = new ArrayList<>();
     }
 
@@ -18,8 +18,8 @@ public class ItemsDB {
         itemList.add(items);
     }
 
-
     public ArrayList<Items> getItemList() {
+
         return this.itemList;
     }
 
@@ -31,6 +31,7 @@ public class ItemsDB {
         }
         return null;
     }
+
 
     public Items FindName(String name){
         for(Items items : itemList){
